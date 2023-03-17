@@ -21,7 +21,7 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
     dcc.Dropdown (id="slct_nombre_comun", # Crea el Desplegable
         options=[# Lista de opciones para el Desplegable (Label: Valor que aparece para el usuario || Value: Valor inte
             {"label": "Abejaruco europeo", "value": "Abejaruco europeo"}, #Como que el valor Value es un año,
-            {"label":"Abejero Europeo", "value": "Abejero Europeo"},
+            {"label":"Abejero europeo", "value": "Abejero europeo"},
             {"label":"Abubilla común", "value": "Abubilla común"},
             {"label":"Acentor alpino", "value": "Acentor alpino"},
             {"label":"Acentor común", "value": "Acentor común"}, # podemos dejar el valor interno
