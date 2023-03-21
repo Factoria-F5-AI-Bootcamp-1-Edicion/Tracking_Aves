@@ -1,8 +1,7 @@
 data_raw/
 .ipynb_checkpoints
 /ESP_adm/
-ESP_adm1.shp
-ESP_adm1.shx
+/ESP/
 EDA_planes.ipynb
 # Created by https://www.toptal.com/developers/gitignore/api/jupyternotebooks,microsoftoffice,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=jupyternotebooks,microsoftoffice,python
