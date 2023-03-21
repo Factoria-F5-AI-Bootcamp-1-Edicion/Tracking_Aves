@@ -10,7 +10,7 @@ import geopandas as gpd
 
 df = pd.read_csv('./data_raw/Dataset_definitivo_con_geometrias.csv')
 
-f = r"ESP_adm/ESP_adm1.shp"
+f = r"ESP/Espana_y_comunidades.shp"
 shapes = gpd.read_file(f)
 
 app = Dash(__name__) # inicializamos Dash
@@ -367,10 +367,10 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
             {"label":"Zorzal común", "value": "Zorzal común"},
             {"label":"Zorzal real", "value": "Zorzal real"}],
         multi=False, # Multi: Deja el Usuario introducir multiples valores a la vez
-        value=2015, # Cambiamos Value a 2015 como default, asi el usuario ya tiene un mapa al entrar a la pagina
+        value='Chotacabras cuellirrojo', # Cambiamos Value a Chotacabras cuellirrojo como default, asi el usuario ya tiene un mapa al entrar a la pagina.
         clearable=False, # No aparece el boton de Borrar
-        searchable=False, # No se puede buscar escribiendo
-        style={"width": "40%"} # Style: Cambia el estilo en general del Desplegable (width: Ancho)
+        searchable=True, # Se puede buscar escribiendo
+        style={"width": "60%"} # Style: Cambia el estilo en general del Desplegable (width: Ancho)
         ),
     html.Div(id="output_container", children= []), #Crea un bloque de texto debajo del Desplegable y crea una variable hija de t
     html. Br(), # Espacio en blanco Best InBI
@@ -402,8 +402,8 @@ def update_graph (option_slctd):
         locations=dff.index_ciudad, # Cambiamos Las Localizaciones para que  nuestra columna de Codigos de Es Best InBl
         # TIENEN QUE SER LOS CODIGOS DE ESTADO, NO PUEDEN SER LOS NOMBRES!!
         #scope="europe", # estados unidos
-        color='Amenaza', # Definimos esta variable para cambiar La Columna que usa como referencia para añadir INTELIGESCOSOLUTIONS
-        hover_data=['NOMBRE COMÚN', 'ARA', 'AND'],
+        color='NIVEL AMENAZA', # Definimos esta variable para cambiar La Columna que usa como referencia para añadir INTELIGESCOSOLUTIONS
+        hover_data=['Ubicacion', 'NOMBRE COMÚN', 'ARA', 'AND'],
         mapbox_style="carto-positron",
         zoom=4.3, 
         center = {"lat": 39.6, "lon": -4},
