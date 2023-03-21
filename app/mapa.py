@@ -381,7 +381,7 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
 @app.callback( # Define Los Inputs y Outputs de la funcion update_graph (Actualizar Grafico)
     [Output (component_id='output_container', component_property='children'), # Output 1: Texto debajo del desplegable
     Output (component_id='superstore_map', component_property='figure')], #Output 2: Mapa
-    [Input (component_id='slct_nombre_comun', component_property='value')] # Input: Año del Desplegable
+    [Input (component_id='slct_nombre_comun', component_property='value')] # Input: Ave seleccionada
     )
 
 def update_graph (option_slctd):
@@ -390,27 +390,25 @@ def update_graph (option_slctd):
     
     container="El ave seleccionada es: {}".format(option_slctd) # Cambiamos el texto debajo del desplegable al Año introducido
     
-    dff = df.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original
-    dff = dff[dff["NOMBRE COMÚN"] == option_slctd] # Filtramos La nueva DataFrame por año, asi tenemos solo del año introducido por el us
+    dff = df.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
+    dff = dff[dff["NOMBRE COMÚN"] == option_slctd] # Filtramos La nueva DataFrame por ave seleccionada, asi tenemos solo el ave que buscamos.
     
     #Plotly Express
     #Creamos el Mapa
-    fig= px.choropleth_mapbox(#dff, 
+    fig= px.choropleth_mapbox(
         geojson=shapes.geometry,
         data_frame=dff, # Definimos La DataFrame con nuestra copia
-        #locationmode='ESP', # Cambiamos el Tipo de Localizacion a Estados de EEUU
-        locations=dff.index_ciudad, # Cambiamos Las Localizaciones para que  nuestra columna de Codigos de Es Best InBl
-        # TIENEN QUE SER LOS CODIGOS DE ESTADO, NO PUEDEN SER LOS NOMBRES!!
-        #scope="europe", # estados unidos
-        color='NIVEL AMENAZA', # Definimos esta variable para cambiar La Columna que usa como referencia para añadir INTELIGESCOSOLUTIONS
-        hover_data=['Ubicacion', 'NOMBRE COMÚN', 'ARA', 'AND'],
-        mapbox_style="carto-positron",
-        zoom=4.3, 
+        locations=dff.index_ciudad, # Cambiamos Las Localizaciones para que  nuestra columna de 'index_ciudad' para que sepa qué comunidad es.
+        # TIENEN QUE SER UN NÚMERO, NO PUEDEN SER LOS NOMBRES!!
+        color='NIVEL AMENAZA', # Definimos esta variable para cambiar La Columna que usa como referencia para añadir colores.
+        hover_name='Ubicacion', # El título en negrita de cada cuadro de información que se abre al pasar el ratón por encima.
+        hover_data=['NOMBRE COMÚN', 'ARA', 'AND'], # Datos que se muestran en el cuadro informativo.
+        labels={0 : 'Sin datos suficientes', 1: 'Amenaza Leve', 2 : 'Amenaza Media', 3 : 'Amenaza Grave', 4 :'Amenaza Muy Grave'} ,
+        mapbox_style='stamen-watercolor', # Estilo del mapa, hemos puesto este que es un mapa de acuarela. Otras posibilidad más seria: 'carto-positron'
+        title='Situación de las aves en peligro de España',  # Título de la figura
+        zoom=4, 
         center = {"lat": 39.6, "lon": -4},
-        opacity=0.5, # Definimos Los valores que aparezerán al pasar el ratón sobre un estado (C
-        # Como que el Color va a estar basado en % de Beneficio, Plotly automaticamente lo asigna al ultimo valor en hover_data[
-        #color_continuous_scale=px.colors.sequential.YlOrRd, # Define como cambia el color con % de Beneficio
-        #emplate='plotly_dark' # Plantilla (plotly. io. templates)
+        opacity=0.5, # Definimos Los valores que aparezerán al pasar el ratón sobre un estado
     )
     return container, fig # Retornar Los Objetos que hemos creado
 # IMPORTANTE: Retornar Los valores en el mismo orden que pusiste en Los Outputs!
