@@ -2,6 +2,7 @@ data_raw/
 .ipynb_checkpoints
 /ESP_adm/
 /ESP/
+/leyendas/
 EDA_planes.ipynb
 # Created by https://www.toptal.com/developers/gitignore/api/jupyternotebooks,microsoftoffice,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=jupyternotebooks,microsoftoffice,python
