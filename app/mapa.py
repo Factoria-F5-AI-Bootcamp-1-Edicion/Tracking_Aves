@@ -402,7 +402,7 @@ def update_graph (option_slctd):
         # TIENEN QUE SER UN NÚMERO, NO PUEDEN SER LOS NOMBRES!!
         color='NIVEL AMENAZA', # Definimos esta variable para cambiar La Columna que usa como referencia para añadir colores.
         hover_name='Ubicacion', # El título en negrita de cada cuadro de información que se abre al pasar el ratón por encima.
-        hover_data=['NOMBRE COMÚN', 'ARA', 'AND'], # Datos que se muestran en el cuadro informativo.
+        hover_data=['NOMBRE COMÚN', 'Amenaza', 'CEEA y LESRPE'], # Datos que se muestran en el cuadro informativo.
         labels={0 : 'Sin datos suficientes', 1: 'Amenaza Leve', 2 : 'Amenaza Media', 3 : 'Amenaza Grave', 4 :'Amenaza Muy Grave'} ,
         mapbox_style='stamen-watercolor', # Estilo del mapa, hemos puesto este que es un mapa de acuarela. Otras posibilidad más seria: 'carto-positron'
         title='Situación de las aves en peligro de España',  # Título de la figura
