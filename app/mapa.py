@@ -7,16 +7,25 @@ from dash import Dash, dcc, html, Input, Output
 import plotly.express as px
 import plotly.graph_objects as go
 import geopandas as gpd
+import folium
 
 df = pd.read_csv('./data_raw/Dataset_definitivo_con_geometrias.csv')
+total_aves_0 = pd.read_csv('./data_raw/total_aves_0.csv')
+total_aves_1 = pd.read_csv('./data_raw/total_aves_1.csv')
+total_aves_2 = pd.read_csv('./data_raw/total_aves_2.csv')
+total_aves_3 = pd.read_csv('./data_raw/total_aves_3.csv')
+total_aves_4 = pd.read_csv('./data_raw/total_aves_4.csv')
+
 
 f = r"ESP/Espana_y_comunidades.shp"
 shapes = gpd.read_file(f)
+punto = r"ESP/puntos_ciudades_espana.gpkg"
+mapapuntos = gpd.read_file(punto)
 
 app = Dash(__name__) # inicializamos Dash
 
 #App Layout
-app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
+app.layout = html.Div([        # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
     html.H1("Web Pajaritos Dash", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
     dcc.Dropdown (id="slct_nombre_comun", # Crea el Desplegable
         options=[# Lista de opciones para el Desplegable (Label: Valor que aparece para el usuario || Value: Valor inte
@@ -374,17 +383,36 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
         ),
     html.Div(id="output_container", children= []), #Crea un bloque de texto debajo del Desplegable y crea una variable hija de t
     html. Br(), # Espacio en blanco Best InBI
-    dcc.Graph(id='superstore_map', figure={}) # Crea el Mapa y crea una variable hija de tipo figura
-])
-
+    dcc.Graph(id='superstore_map', figure={}), # Crea el Mapa y crea una variable hija de tipo figura
+    # aplicamos el componente Slider para CREAR el deslizante
+    dcc.Slider(
+    0,4,
+    step=None,
+    marks={
+        0: 'SIN DATOS',
+        1: 'LEVE',
+        2: 'MEDIO',
+        3: 'GRAVE',
+        4: 'MUY GRAVE'},
+    tooltip={"placement": "bottom", "always_visible": True}, # CREA los botones sombreados 
+    id="slider",
+    value=0
+    ),
+    dcc.Graph(id='superstore_map2', figure={})
+    
+])    
+  
+    
 # Conecta Los Graficos de Plotly con Los Componentes Dash
 @app.callback( # Define Los Inputs y Outputs de la funcion update_graph (Actualizar Grafico)
     [Output (component_id='output_container', component_property='children'), # Output 1: Texto debajo del desplegable
-    Output (component_id='superstore_map', component_property='figure')], #Output 2: Mapa
-    [Input (component_id='slct_nombre_comun', component_property='value')] # Input: Ave seleccionada
-    )
+    Output (component_id='superstore_map', component_property='figure'), 
+    Output (component_id='superstore_map2', component_property='figure')], #Output 2: Mapa2
+    [Input (component_id='slct_nombre_comun', component_property='value'),
+     Input (component_id='slider', component_property='value')] # Input: Ave seleccionada
+)
 
-def update_graph (option_slctd):
+def update_graph (option_slctd, value):
     print(option_slctd) # Imprimimos a consola La opcion del usuario,
     print(type (option_slctd)) # y el tipo de la opcion (best practices).
     
@@ -392,6 +420,28 @@ def update_graph (option_slctd):
     
     dff = df.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
     dff = dff[dff["NOMBRE COMÚN"] == option_slctd] # Filtramos La nueva DataFrame por ave seleccionada, asi tenemos solo el ave que buscamos.
+    
+    if value==0:
+        df_puntos=total_aves_0
+    else:
+        pass
+    if value==1:
+        df_puntos=total_aves_1
+    else:
+        pass
+    if value==2:
+        df_puntos=total_aves_2
+    else:
+        pass
+    if value==3:
+        df_puntos=total_aves_3
+    else:
+        pass
+    if value==4:
+        df_puntos=total_aves_4
+    else:
+        pass
+    
     
     #Plotly Express
     #Creamos el Mapa
@@ -409,9 +459,26 @@ def update_graph (option_slctd):
         zoom=4, 
         center = {"lat": 39.6, "lon": -4},
         opacity=0.5, # Definimos Los valores que aparezerán al pasar el ratón sobre un estado
+    ),
+        
+    fig2 = go.Figure(
+        go.Scattermapbox(
+            lat=df_puntos["lat"],
+            lon=df_puntos["lon"],
+            mode='markers',
+            marker=go.scattermapbox.Marker(
+                size=df_puntos["TOTAL AVES"],
+                color= '#ff8533'
+            )
+        )
     )
-    return container, fig # Retornar Los Objetos que hemos creado
+
+
+    return container, fig, fig2 # Retornar Los Objetos que hemos creado
 # IMPORTANTE: Retornar Los valores en el mismo orden que pusiste en Los Outputs!
 
 if __name__ == "__main__":
     app.run_server(debug=True, use_reloader=False) # Corre el Servidor:
+    
+    
+    
