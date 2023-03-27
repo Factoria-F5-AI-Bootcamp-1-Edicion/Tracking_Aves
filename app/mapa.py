@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib
 import matplotlib.pyplot as plt
 from dash import Dash, dcc, html, Input, Output
+import dash
 import plotly.express as px
 import plotly.graph_objects as go
 import geopandas as gpd
@@ -454,28 +455,45 @@ def update_graph (option_slctd, option_leyen, option_amenaza):
     container2=f'{leyenda}'+' es igual a '+f'{significado}'
     
     dff = df.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
-    dff = dff[dff["NOMBRE COMÚN"] == option_slctd] # Filtramos La nueva DataFrame por ave seleccionada, asi tenemos solo el ave que buscamos.
+    dff = dff[dff["NOMBRE COMÚN"] == option_slctd].reset_index() # Filtramos La nueva DataFrame por ave seleccionada, asi tenemos solo el ave que buscamos.
     dfff = df.copy()
     calor = dfff[dfff['NIVEL AMENAZA']==option_amenaza]
+   
+    if dff['GLOBAL UICN RED LIST (consulta 2022)'][0]!='NP':
+        global_cat = dff['GLOBAL UICN RED LIST (consulta 2022)'][0]
+        titulo = 'La amenaza del '+f'{option_slctd}'+' a nivel global es'+' '+f'{global_cat}'
+    else:
+        titulo = 'No hay categorización a nivel global'
+   
 
     #Plotly Express
     #Creamos el Mapa
     fig= px.choropleth_mapbox(
         geojson=shapes.geometry,
         data_frame=dff, # Definimos La DataFrame con nuestra copia
-        locations=dff.index_ciudad, # Cambiamos Las Localizaciones para que  nuestra columna de 'index_ciudad' para que sepa qué comunidad es.
-        # TIENEN QUE SER UN NÚMERO, NO PUEDEN SER LOS NOMBRES!!
+        locations=dff.index_ciudad, # Cambiamos Las Localizaciones para que  nuestra columna de 'index_ciudad' para que sepa qué comunidad es(Números, no nombres)
         color='NIVEL AMENAZA', # Definimos esta variable para cambiar La Columna que usa como referencia para añadir colores.
         hover_name='Ubicacion', # El título en negrita de cada cuadro de información que se abre al pasar el ratón por encima.
         hover_data=['NOMBRE COMÚN', 'Amenaza', 'CEEA y LESRPE'], # Datos que se muestran en el cuadro informativo.
         labels={0 : 'Sin datos suficientes', 1: 'Amenaza Leve', 2 : 'Amenaza Media', 3 : 'Amenaza Grave', 4 :'Amenaza Muy Grave'} ,
         mapbox_style='stamen-watercolor', # Estilo del mapa, hemos puesto este que es un mapa de acuarela. Otras posibilidad más seria: 'carto-positron'
-        title='Situación de las aves en peligro de España',  # Título de la figura
+        title=titulo,  # Título de la figura
         zoom=4, 
         center = {"lat": 39.6, "lon": -4},
         opacity=0.5, # Definimos Los valores que aparezerán al pasar el ratón sobre un estado
     )
-    
+    fig.update_layout(
+            autosize=False,
+            width=1000,
+            height=1000,
+            margin=dict(
+                l=50,
+                r=50,
+                b=100,
+                t=100,
+                pad=4
+            ))
+
     map = folium.Map(location=[40, -2], tiles="Cartodb dark_matter", zoom_start=6)
     heat_data = [[row['lat'],row['lon']] for index, row in calor.iterrows()]
     plugins.HeatMap(heat_data).add_to(map)
