@@ -11,7 +11,7 @@ import geopandas as gpd
 from folium import plugins
 import folium
 
-df = pd.read_csv('./data_raw/aves_con_coordenadas.csv')
+df = pd.read_csv('./data_raw/aves_final.csv')
 
 leyen_amen = pd.read_csv('./leyendas/leyendas_amenaza.csv')
 leyen_plan = pd.read_csv('./leyendas/leyendas_planes.csv')
@@ -25,9 +25,9 @@ app = Dash(__name__) # inicializamos Dash
 app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
     html.H1("Web Pajaritos Dash", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
     dcc.Dropdown (id="slct_nombre_comun", # Crea el Desplegable
-        options=df['NOMBRE COMÚN'],
+        options=df['nombre_comun&cientifico'],
         multi=False, # Multi: Deja el Usuario introducir multiples valores a la vez
-        value='Chotacabras cuellirrojo', # Cambiamos Value a Chotacabras cuellirrojo como default, asi el usuario ya tiene un mapa al entrar a la pagina.
+        value='Abubilla común-Upupa epops', # Cambiamos Value a Chotacabras cuellirrojo como default, asi el usuario ya tiene un mapa al entrar a la pagina.
         clearable=False, # No aparece el boton de Borrar
         searchable=True, # Se puede buscar escribiendo
         style={"width": "60%"} # Style: Cambia el estilo en general del Desplegable (width: Ancho)
@@ -109,7 +109,7 @@ def update_graph (option_slctd, option_leyen, option_amenaza):
     container2=f'{leyenda}'+' es igual a '+f'{significado}'
     
     dff = df.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
-    dff = dff[dff["NOMBRE COMÚN"] == option_slctd].reset_index() # Filtramos La nueva DataFrame por ave seleccionada, asi tenemos solo el ave que buscamos.
+    dff = dff[dff["nombre_comun&cientifico"] == option_slctd].reset_index() # Filtramos La nueva DataFrame por ave seleccionada, asi tenemos solo el ave que buscamos.
     dfff = df.copy()
     calor = dfff[dfff['NIVEL AMENAZA']==option_amenaza]
    
