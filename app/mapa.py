@@ -11,7 +11,7 @@ import geopandas as gpd
 from folium import plugins
 import folium
 
-df = pd.read_csv('./data_raw/aves_final.csv')
+df = pd.read_csv('./data_raw/aves_df.csv')
 
 leyen_amen = pd.read_csv('./leyendas/leyendas_amenaza.csv')
 leyen_plan = pd.read_csv('./leyendas/leyendas_planes.csv')
@@ -122,8 +122,8 @@ def update_graph (option_slctd, option_leyen, option_amenaza):
 
     #Plotly Express
     #Creamos el Mapa
-    colorscale = ["rgb(33, 74, 12)", "rgb(67, 136, 33)", "rgb(94, 179, 39)", "rgb(210, 231, 154)", "rgb(255, 51, 51)"]
-    fig= px.choropleth_mapbox(
+    colorscale = [ "rgb(210, 231, 154)", "rgb(94, 179, 39)", "rgb(255, 51, 51)"]
+    fig = px.choropleth_mapbox(
         geojson=shapes.geometry,
         data_frame=dff, # Definimos La DataFrame con nuestra copia
         locations=dff.index_ciudad, # Cambiamos Las Localizaciones para que  nuestra columna de 'index_ciudad' para que sepa qué comunidad es(Números, no nombres)
@@ -140,16 +140,17 @@ def update_graph (option_slctd, option_leyen, option_amenaza):
         opacity=0.5, # Definimos Los valores que aparezerán al pasar el ratón sobre un estado
     )
     fig.update_layout(
-            autosize=False,
-            width=1000,
-            height=1000,
-            margin=dict(
-                l=50,
-                r=50,
-                b=100,
-                t=100,
-                pad=4
-            ))
+        autosize=False,
+        width=1000,
+        height=1000,
+        margin=dict(
+            l=50,
+            r=50,
+            b=100,
+            t=100,
+            pad=4
+        )
+    )
 
     map = folium.Map(location=[40, -2], tiles="Cartodb dark_matter", zoom_start=6)
     heat_data = [[row['lat'],row['lon']] for index, row in calor.iterrows()]
