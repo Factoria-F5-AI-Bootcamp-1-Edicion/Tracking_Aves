@@ -57,7 +57,9 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
             {"label":"R*", "value": 16},
             {"label":"LNESRPE", "value": 17},
             {"label":"LEFP", "value": 18},
-            {"label":"TUT", "value": 19}
+            {"label":"TUT", "value": 19},
+            {"label":"NE", "value": 20},
+            {"label":"RE", "value": 21}
             ],
         multi=False, # Multi: Deja el Usuario introducir multiples valores a la vez
         value=3, # Cambiamos Value a Chotacabras cuellirrojo como default, asi el usuario ya tiene un mapa al entrar a la pagina.
