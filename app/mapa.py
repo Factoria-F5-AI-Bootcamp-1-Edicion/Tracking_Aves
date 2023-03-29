@@ -68,42 +68,23 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
         style={"width": "60%"} # Style: Cambia el estilo en general del Desplegable (width: Ancho)
         ),
     html.Div(id="output_container2", children= []),
-    html. Br(),
-    dcc.Slider(
-        0,4,
-        step=None,
-        marks={
-            0: 'SIN DATOS',
-            1: 'LEVE',
-            2: 'MEDIO',
-            3: 'GRAVE',
-            4: 'MUY GRAVE'},
-        tooltip={"placement": "bottom", "always_visible": True}, # CREA los botones sombreados 
-        id="slider",
-        value=1
-    ),
-    html.Iframe(id='superstore_map2', width='100%', height='600'),
-
+    html. Br()
 ])
 
 # Conecta Los Graficos de Plotly con Los Componentes Dash
 @app.callback( # Define Los Inputs y Outputs de la funcion update_graph (Actualizar Grafico)
     [Output (component_id='output_container', component_property='children'), # Output 1: Texto debajo del desplegable
     Output (component_id='superstore_map', component_property='figure'),
-    Output (component_id='output_container2', component_property='children'),
-    Output (component_id='superstore_map2', component_property='srcDoc')], #Output 2: Mapa
+    Output (component_id='output_container2', component_property='children')], 
     [Input (component_id='slct_nombre_comun', component_property='value'),
-     Input (component_id='slct_leyen_amenaza', component_property='value'),
-     Input (component_id='slider', component_property='value')] # Input: Ave seleccionada
+     Input (component_id='slct_leyen_amenaza', component_property='value')] 
     )
 
-def update_graph (option_slctd, option_leyen, option_amenaza):
+def update_graph (option_slctd, option_leyen):
     print(option_slctd) # Imprimimos a consola La opcion del usuario,
     print(type (option_slctd)) # y el tipo de la opcion (best practices).
     print(option_leyen)
     print(type(option_leyen))
-    print(option_amenaza)
-    print(type(option_amenaza))
     
     container="El ave seleccionada es: {}".format(option_slctd) # Cambiamos el texto debajo del desplegable al Año introducido
     leyenda=leyen_amen['Leyenda'].iloc[option_leyen]
@@ -113,8 +94,7 @@ def update_graph (option_slctd, option_leyen, option_amenaza):
     dff = df.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
     dff = dff[dff["nombre_comun&cientifico"] == option_slctd].reset_index() # Filtramos La nueva DataFrame por ave seleccionada, asi tenemos solo el ave que buscamos.
     dfff = df.copy()
-    calor = dfff[dfff['NIVEL AMENAZA']==option_amenaza]
-   
+       
     if dff['GLOBAL UICN RED LIST (consulta 2022)'][0]!='NP':
         global_cat = dff['GLOBAL UICN RED LIST (consulta 2022)'][0]
         titulo = 'La amenaza del '+f'{option_slctd}'+' a nivel global es'+' '+f'{global_cat}'
@@ -154,12 +134,8 @@ def update_graph (option_slctd, option_leyen, option_amenaza):
         )
     )
 
-    map = folium.Map(location=[40, -2], tiles="Cartodb dark_matter", zoom_start=6)
-    heat_data = [[row['lat'],row['lon']] for index, row in calor.iterrows()]
-    plugins.HeatMap(heat_data).add_to(map)
-    map.save("map_1.html")
-
-    return container, fig, container2, open('map_1.html', 'r').read() # Retornar Los Objetos que hemos creado
+    
+    return container, fig, container2 # Retornar Los Objetos que hemos creado
 # IMPORTANTE: Retornar Los valores en el mismo orden que pusiste en Los Outputs!
 
 if __name__ == "__main__":
