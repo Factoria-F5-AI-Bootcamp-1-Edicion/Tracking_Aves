@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 import geopandas as gpd
 from folium import plugins
 import folium
+ 
 
 df = pd.read_csv('./data_raw/aves_df.csv')
 
@@ -20,6 +21,15 @@ f = r"ESP/Espana_y_comunidades.shp"
 shapes = gpd.read_file(f)
 
 app = Dash(__name__) # inicializamos Dash
+
+
+img_style={
+        'width': '250px',
+        'height': '00px',
+        'margin-right': '10px',
+        'margin-top': '10px'
+}
+
 
 #App Layout
 app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
@@ -68,8 +78,18 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
         style={"width": "60%"} # Style: Cambia el estilo en general del Desplegable (width: Ancho)
         ),
     html.Div(id="output_container2", children= []),
-    html. Br()
-])
+    html. Br(),
+
+#imagen pajaritos
+    html.Div([
+        html.H1('Dash Puppies'),
+        html.Img(src=app.get_asset_url('EN.png'))]),
+
+    html.Div([
+        html.H1('Dash Puppies'),
+        html.Img(src=app.get_asset_url('EX.png'))])
+
+])                
 
 # Conecta Los Graficos de Plotly con Los Componentes Dash
 @app.callback( # Define Los Inputs y Outputs de la funcion update_graph (Actualizar Grafico)
