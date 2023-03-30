@@ -80,14 +80,37 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
     html.Div(id="output_container2", children= []),
     html. Br(),
     
-#imagen pajaritos
-    html.Div([
-        html.H3(id='texto1'),
-        html.Img(id='img1'),
-        html.H3(id='texto2'),
-        html.Img(id='img2')],
-        style= {'display':'inline-block', 'float':'left'}
-    )
+    dcc.Tabs(
+        id="tabs",
+        value="tab-1",
+        children=[
+            dcc.Tab(
+                label="Canarias 2004 & 2021",
+                value="tab-1",
+                children=[html.H3(id='texto1'),
+                          html.Img(id='img1'),
+                          html.H3(id='texto2'),
+                          html.Img(id='img2')]
+            ),
+            dcc.Tab(
+                label="Península Reproductoras 2004 & 2021",
+                value="tab-2",
+                children=[html.H3(id='texto3'),
+                          html.Img(id='img3'),
+                          html.H3(id='texto4'),
+                          html.Img(id='img4')]
+            ),
+            dcc.Tab(
+                label="Península Migratorias 2004 & 2021",
+                value="tab-3",
+                children=[html.H3(id='texto5'),
+                          html.Img(id='img5'),
+                          html.H3(id='texto6'),
+                          html.Img(id='img6')]
+            )
+        ],
+    ),
+
 ])                
 
 # Conecta Los Graficos de Plotly con Los Componentes Dash
@@ -96,7 +119,11 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
     Output (component_id='superstore_map', component_property='figure'),
     Output (component_id='output_container2', component_property='children'),
     Output ('img1', 'src'),  Output('texto1', 'children'),
-    Output ('img2', 'src'),  Output('texto2', 'children')], 
+    Output ('img2', 'src'),  Output('texto2', 'children'),
+    Output ('img3', 'src'),  Output('texto3', 'children'),
+    Output ('img4', 'src'),  Output('texto4', 'children'),
+    Output ('img5', 'src'),  Output('texto5', 'children'),
+    Output ('img6', 'src'),  Output('texto6', 'children')], 
     [Input (component_id='slct_nombre_comun', component_property='value'),
      Input (component_id='slct_leyen_amenaza', component_property='value')] 
     )
@@ -154,9 +181,10 @@ def update_graph (option_slctd, option_leyen):
         )
     )
 
-    imagen1, texto1, imagen2, texto2 = selectImgs(dff, 'LR2004_PENINSULA', 'LR2021_REPROD_PENINSULA')
-
-    return container, fig, container2, app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2 # Retornar Los Objetos que hemos creado
+    imagen1, texto1, imagen2, texto2 = selectImgs(dff, 'LR2004_CANA', 'LR2021_REPROD_CANA')
+    imagen3, texto3, imagen4, texto4 = selectImgs(dff, 'LR2004_PENINSULA', 'LR2021_REPROD_PENINSULA')
+    imagen5, texto5, imagen6, texto6 = selectImgs(dff, 'LR2004_PENINSULA', 'LR2021_MIGRA')
+    return container, fig, container2, app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2, app.get_asset_url(imagen3), texto3, app.get_asset_url(imagen4), texto4, app.get_asset_url(imagen5), texto5, app.get_asset_url(imagen6), texto6 # Retornar Los Objetos que hemos creado
 
 # IMPORTANTE: Retornar Los valores en el mismo orden que pusiste en Los Outputs!
 
