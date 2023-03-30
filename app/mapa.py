@@ -170,9 +170,9 @@ def update_graph (option_slctd, option_leyen):
         )
     )
 
-    imagen1, texto1, imagen2, texto2 = selectImgs(dff, 'LR2004_CANA', 'LR2021_REPROD_CANA')
-    imagen3, texto3, imagen4, texto4 = selectImgs(dff, 'LR2004_PENINSULA', 'LR2021_REPROD_PENINSULA')
-    imagen5, texto5, imagen6, texto6 = selectImgs(dff, 'LR2004_PENINSULA', 'LR2021_MIGRA')
+    imagen1, texto1, imagen2, texto2 = selectImgs(dff, 'Lista Roja 2004 Canarias', 'Lista Roja 2021 Canarias')
+    imagen3, texto3, imagen4, texto4 = selectImgs(dff, 'Lista Roja 2004 Península', 'Lista Roja 2021 Reproductoras Península')
+    imagen5, texto5, imagen6, texto6 = selectImgs(dff, 'Lista Roja 2004 Península', 'Lista Roja 2021 Migratorias')
     return container, fig, container2, app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2, app.get_asset_url(imagen3), texto3, app.get_asset_url(imagen4), texto4, app.get_asset_url(imagen5), texto5, app.get_asset_url(imagen6), texto6 # Retornar Los Objetos que hemos creado
 
 # IMPORTANTE: Retornar Los valores en el mismo orden que pusiste en Los Outputs!
