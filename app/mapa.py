@@ -83,11 +83,14 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
 #imagen pajaritos
     html.Div([
         html.H1('Dash Puppies'),
-        html.Img(src=app.get_asset_url('EN.png'))]),
+        html.Img(src=app.get_asset_url('EN.png'))],
+        style= {'display':'inline-block', 'float':'left'}
+        ),
 
     html.Div([
         html.H1('Dash Puppies'),
-        html.Img(src=app.get_asset_url('EX.png'))])
+        html.Img(src=app.get_asset_url('EX.png'))
+    ])
 
 ])                
 
