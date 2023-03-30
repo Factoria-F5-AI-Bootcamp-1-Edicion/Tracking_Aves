@@ -30,7 +30,6 @@ img_style={
         'margin-top': '10px'
 }
 
-
 #App Layout
 app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
     html.H1("Web Pajaritos Dash", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
@@ -82,15 +81,14 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
 
 #imagen pajaritos
     html.Div([
-        html.H1('Dash Puppies'),
-        html.Img(src=app.get_asset_url('EN.png'))],
+        html.H1(id='texto1'),
+        html.Img(id='img1')],
         style= {'display':'inline-block', 'float':'left'}
-        ),
-
+    ),
     html.Div([
-        html.H1('Dash Puppies'),
-        html.Img(src=app.get_asset_url('EX.png'))
-    ])
+        html.H1(id='texto2'),
+        html.Img(id='img2')]
+    ),
 
 ])                
 
@@ -98,7 +96,9 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
 @app.callback( # Define Los Inputs y Outputs de la funcion update_graph (Actualizar Grafico)
     [Output (component_id='output_container', component_property='children'), # Output 1: Texto debajo del desplegable
     Output (component_id='superstore_map', component_property='figure'),
-    Output (component_id='output_container2', component_property='children')], 
+    Output (component_id='output_container2', component_property='children'),
+    Output ('img1', 'src'),  Output('texto1', 'children'),
+    Output ('img2', 'src'),  Output('texto2', 'children')], 
     [Input (component_id='slct_nombre_comun', component_property='value'),
      Input (component_id='slct_leyen_amenaza', component_property='value')] 
     )
@@ -116,7 +116,6 @@ def update_graph (option_slctd, option_leyen):
     
     dff = df.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
     dff = dff[dff["nombre_comun&cientifico"] == option_slctd].reset_index() # Filtramos La nueva DataFrame por ave seleccionada, asi tenemos solo el ave que buscamos.
-    dfff = df.copy()
        
     if dff['GLOBAL UICN RED LIST (consulta 2022)'][0]!='NP':
         global_cat = dff['GLOBAL UICN RED LIST (consulta 2022)'][0]
@@ -156,9 +155,18 @@ def update_graph (option_slctd, option_leyen):
             pad=4
         )
     )
+    if dff['LR2004_PENINSULA'][0] == 'NE':
+        imagen1 = 'NE.png'
+        texto1 = 'Libro Rojo 2004 Península'
+
+    if dff['LR2021_REPROD_PENINSULA'][0] == 'LC':
+        imagen2 = 'LC.png'
+        texto2 = 'Libro Rojo 2021 Península (Reproductoras)'
+
 
     
-    return container, fig, container2 # Retornar Los Objetos que hemos creado
+    return container, fig, container2, app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2 # Retornar Los Objetos que hemos creado
+
 # IMPORTANTE: Retornar Los valores en el mismo orden que pusiste en Los Outputs!
 
 if __name__ == "__main__":
