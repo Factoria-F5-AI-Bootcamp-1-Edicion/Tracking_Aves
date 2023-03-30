@@ -23,14 +23,6 @@ shapes = gpd.read_file(f)
 
 app = Dash(__name__) # inicializamos Dash
 
-
-img_style={
-        'width': '250px',
-        'height': '00px',
-        'margin-right': '10px',
-        'margin-top': '10px'
-}
-
 #App Layout
 app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
     html.H1("Web Pajaritos Dash", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
@@ -44,7 +36,37 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
         ),
     html.Div(id="output_container", children= []), #Crea un bloque de texto debajo del Desplegable y crea una variable hija de t
     html. Br(), # Espacio en blanco Best InBI
-    dcc.Graph(id='superstore_map', figure={}), # Crea el Mapa y crea una variable hija de tipo figura
+    dcc.Graph(id='superstore_map', figure={}, style={'float': 'right','margin': 'auto'}),
+    dcc.Tabs(
+        id="tabs",
+        value="tab-1",
+        children=[
+            dcc.Tab(
+                label="Canarias 2004 & 2021",
+                value="tab-1",
+                children=[html.H4(id='texto1'),
+                          html.Img(id='img1', style={'display': 'inline-block', 'height':'20%'}),
+                          html.H4(id='texto2'),
+                          html.Img(id='img2', style={'display': 'inline-block', 'height':'20%'})]
+            ),
+            dcc.Tab(
+                label="Península Reproductoras 2004 & 2021",
+                value="tab-2",
+                children=[html.H4(id='texto3'),
+                          html.Img(id='img3', style={'display': 'inline-block', 'height':'20%'}),
+                          html.H4(id='texto4'),
+                          html.Img(id='img4', style={'display': 'inline-block', 'height':'20%'})]
+            ),
+            dcc.Tab(
+                label="Península Migratorias 2004 & 2021",
+                value="tab-3",
+                children=[html.H4(id='texto5'),
+                          html.Img(id='img5', style={'display': 'inline-block', 'height':'20%'}),
+                          html.H4(id='texto6'),
+                          html.Img(id='img6', style={'display': 'inline-block', 'height':'20%'})]
+            )
+        ],style={'float': 'right','margin': 'auto'} # 'float': 'right','margin': 'auto' -- 'width': '49%', 'display': 'inline-block'
+    ),
     html. Br(), # Espacio en blanco Best InBI
     dcc.Dropdown (id="slct_leyen_amenaza", # Crea el Desplegable
         options=[# Lista de opciones para el Desplegable (Label: Valor que aparece para el usuario || Value: Valor interno
@@ -77,40 +99,7 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
         searchable=True, # Se puede buscar escribiendo
         style={"width": "60%"} # Style: Cambia el estilo en general del Desplegable (width: Ancho)
         ),
-    html.Div(id="output_container2", children= []),
-    html. Br(),
-    
-    dcc.Tabs(
-        id="tabs",
-        value="tab-1",
-        children=[
-            dcc.Tab(
-                label="Canarias 2004 & 2021",
-                value="tab-1",
-                children=[html.H3(id='texto1'),
-                          html.Img(id='img1'),
-                          html.H3(id='texto2'),
-                          html.Img(id='img2')]
-            ),
-            dcc.Tab(
-                label="Península Reproductoras 2004 & 2021",
-                value="tab-2",
-                children=[html.H3(id='texto3'),
-                          html.Img(id='img3'),
-                          html.H3(id='texto4'),
-                          html.Img(id='img4')]
-            ),
-            dcc.Tab(
-                label="Península Migratorias 2004 & 2021",
-                value="tab-3",
-                children=[html.H3(id='texto5'),
-                          html.Img(id='img5'),
-                          html.H3(id='texto6'),
-                          html.Img(id='img6')]
-            )
-        ],
-    ),
-
+    html.Div(id="output_container2", children= [])
 ])                
 
 # Conecta Los Graficos de Plotly con Los Componentes Dash
