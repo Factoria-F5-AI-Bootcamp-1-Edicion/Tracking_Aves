@@ -79,18 +79,15 @@ app.layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá 
         ),
     html.Div(id="output_container2", children= []),
     html. Br(),
-
+    
 #imagen pajaritos
     html.Div([
-        html.H1(id='texto1'),
-        html.Img(id='img1')],
+        html.H3(id='texto1'),
+        html.Img(id='img1'),
+        html.H3(id='texto2'),
+        html.Img(id='img2')],
         style= {'display':'inline-block', 'float':'left'}
-    ),
-    html.Div([
-        html.H1(id='texto2'),
-        html.Img(id='img2')]
-    ),
-
+    )
 ])                
 
 # Conecta Los Graficos de Plotly con Los Componentes Dash
