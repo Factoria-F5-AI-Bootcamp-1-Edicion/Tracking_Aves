@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 import geopandas as gpd
 from folium import plugins
 import folium
+from seleccionar_img import selectImg, selectImgs
  
 
 df = pd.read_csv('./data_raw/aves_df.csv')
@@ -155,16 +156,9 @@ def update_graph (option_slctd, option_leyen):
             pad=4
         )
     )
-    if dff['LR2004_PENINSULA'][0] == 'NE':
-        imagen1 = 'NE.png'
-        texto1 = 'Libro Rojo 2004 Península'
 
-    if dff['LR2021_REPROD_PENINSULA'][0] == 'LC':
-        imagen2 = 'LC.png'
-        texto2 = 'Libro Rojo 2021 Península (Reproductoras)'
+    imagen1, texto1, imagen2, texto2 = selectImgs(dff, 'LR2004_PENINSULA', 'LR2021_REPROD_PENINSULA')
 
-
-    
     return container, fig, container2, app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2 # Retornar Los Objetos que hemos creado
 
 # IMPORTANTE: Retornar Los valores en el mismo orden que pusiste en Los Outputs!
