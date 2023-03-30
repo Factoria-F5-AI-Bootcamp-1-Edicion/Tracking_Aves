@@ -2,6 +2,7 @@ from dash import Dash, dcc, html, Input, Output
 import pandas as pd
 
 df = pd.read_csv('./data_raw/aves_df.csv')
+planes = pd.read_csv('./data_raw/planes_aves.csv')
 
 page1_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
     html.H1("Situación de las aves amenazas de España", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
@@ -82,5 +83,17 @@ page1_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correr�
 ]) 
 
 page2_layout = html.Div([
-    html.H1("Planes de protección de Aves de España", style={'text-align' : 'center'})
+    html.H1("Planes de protección de Aves de España", style={'text-align' : 'center'}),
+    dcc.Dropdown(
+        options=[
+            {"label": "Sin el correspondiente plan", "value": 'NO'}, #Como que el valor Value es un año,
+            {"label":"Con el correspondiente plan", "value": 'SI'}
+        ],
+        multi=False, # Multi: Deja el Usuario introducir multiples valores a la vez
+        value='NO', # Cambiamos Value a Chotacabras cuellirrojo como default, asi el usuario ya tiene un mapa al entrar a la pagina.
+        clearable=False, # No aparece el boton de Borrar
+        searchable=True, # Se puede buscar escribiendo
+        style={"width": "60%"}
+    ),
+    dcc.Graph(id='mapa_planes', figure={})
 ])

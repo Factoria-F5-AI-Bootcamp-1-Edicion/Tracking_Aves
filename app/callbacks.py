@@ -3,10 +3,12 @@ import plotly.express as px
 import geopandas as gpd
 
 from app import app
+import layouts
 from dash import Input, Output
 from seleccionar_img import selectImgs
 
 df = pd.read_csv('./data_raw/aves_df.csv')
+planes = pd.read_csv('./data_raw/planes_aves.csv')
 
 leyen_amen = pd.read_csv('./leyendas/leyendas_amenaza.csv')
 leyen_plan = pd.read_csv('./leyendas/leyendas_planes.csv')
@@ -85,3 +87,19 @@ def update_graph (option_slctd, option_leyen):
     imagen3, texto3, imagen4, texto4 = selectImgs(dff, 'Lista Roja 2004 Península', 'Lista Roja 2021 Reproductoras Península')
     imagen5, texto5, imagen6, texto6 = selectImgs(dff, 'Lista Roja 2004 Península', 'Lista Roja 2021 Migratorias')
     return container, fig, container2, app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2, app.get_asset_url(imagen3), texto3, app.get_asset_url(imagen4), texto4, app.get_asset_url(imagen5), texto5, app.get_asset_url(imagen6), texto6 # Retornar Los Objetos que hemos creado
+
+@app.callback(
+    [Output (component_id='mapa_planes', component_property='figure')],
+    [Input (component_id='slct_hay_plan', component_property='value')]
+    )
+
+def update_graph_planes (opcion):
+    print(opcion) # Imprimimos a consola La opcion del usuario,
+    print(type (opcion))
+
+    planes_elegidos = planes.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
+    planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == opcion]
+
+    fig = px.scatter_mapbox(planes_elegidos, lat="lat", lon="long", size="cnt", zoom=3)
+    fig.update_traces(cluster=dict(enabled=True))
+    return fig
