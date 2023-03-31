@@ -4,27 +4,35 @@ import geopandas as gpd
 from dash.exceptions import PreventUpdate
 
 from app import app
-from layouts import page1_layout, page2_layout
+from layouts import nav_bar, CONTENT_STYLE, page2_layout, page3_layout
 import callbacks
 
 app.layout = html.Div([
-    dcc.Tabs(id='tabs', value='tab1', children=[
-        dcc.Tab(label='Situación de las aves', value='tab1', children=[page1_layout]),
-        dcc.Tab(label='Planes de acción', value='tab2', children=[page2_layout])
-    ]),
-    html.Div(id='page-content')
+    dcc.Location(id='url', refresh=False),
+    nav_bar(),
+    html.Div(id='page-content',style=CONTENT_STYLE)
 ])
-@app.callback(
-        [Output('page-content', 'children')],
-        [Input('tabs', 'value')]
+
+@app.callback(Output('page-content', 'children'),
+        [Input('url', 'pathname')]
 )
 
-def render_content(tab):
+def display_page(pathname):
+    #if pathname == '/'
+        #return page1_layout
+    if pathname == '/aves':
+        return page2_layout
+    elif pathname == '/planes':
+        return page3_layout
+    else:
+        return '404'
+    
+'''def render_content(tab):
     if tab == 'tab1':
         return page1_layout
     elif tab == 'tab2':
         return page2_layout
     raise PreventUpdate
-
+'''
 if __name__ == "__main__":
     app.run_server(debug=True, use_reloader=False) # Corre el Servidor:

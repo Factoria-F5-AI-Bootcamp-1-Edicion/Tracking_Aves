@@ -1,10 +1,49 @@
 from dash import Dash, dcc, html, Input, Output
+import dash_bootstrap_components as dbc
 import pandas as pd
 
 df = pd.read_csv('./data_raw/aves_df.csv')
 planes = pd.read_csv('./data_raw/planes_aves.csv')
 
-page1_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
+NAVBAR_STYLE = {
+    "position": "fixed",
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "width": "16rem",
+    "padding": "2rem 1rem",
+    "background-color": "#f8f9fa",
+}
+
+CONTENT_STYLE = {
+    "top":0,
+    "margin-top":'2rem',
+    "margin-left": "18rem",
+    "margin-right": "2rem",
+}
+
+def nav_bar():
+    """
+    Creates Navigation bar
+    """
+    navbar = html.Div(
+        [
+            html.H4("¿Qué deseas ver?", className="display-10",style={'textAlign':'center'}),
+            html.Hr(),
+            dbc.Nav(
+                [
+                    dbc.NavLink("Situacion de aves ", href="/aves",active="exact", external_link=True),
+                    dbc.NavLink("Planes de acción ", href="/planes", active="exact", external_link=True)
+                ],
+                pills=True,
+                vertical=True
+            ),
+        ],
+    style=NAVBAR_STYLE
+    )  
+    return navbar
+
+page2_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
     html.H1("Situación de las aves amenazas de España", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
     dcc.Dropdown (id="slct_nombre_comun", # Crea el Desplegable
         options=df['nombre_comun&cientifico'],
@@ -82,7 +121,7 @@ page1_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correr�
     html.Div(id="output_container2", children= [])
 ]) 
 
-page2_layout = html.Div([
+page3_layout = html.Div([
     html.H1("Planes de protección de Aves de España", style={'text-align' : 'center'}),
     dcc.Dropdown(
         options=[
@@ -95,5 +134,5 @@ page2_layout = html.Div([
         searchable=True, # Se puede buscar escribiendo
         style={"width": "60%"}
     ),
-    dcc.Graph(id='mapa_planes', figure={})
+    html.Iframe(id='mapa_planes', width='100%', height='600')
 ])

@@ -1,6 +1,8 @@
 import pandas as pd
 import plotly.express as px
 import geopandas as gpd
+import folium
+import folium.plugins as plugins
 
 from app import app
 import layouts
@@ -30,7 +32,7 @@ shapes = gpd.read_file(f)
      Input (component_id='slct_leyen_amenaza', component_property='value')] 
     )
 
-def update_graph (option_slctd, option_leyen):
+def first_callback(option_slctd, option_leyen):
     print(option_slctd) # Imprimimos a consola La opcion del usuario,
     print(type (option_slctd)) # y el tipo de la opcion (best practices).
     print(option_leyen)
@@ -89,17 +91,49 @@ def update_graph (option_slctd, option_leyen):
     return container, fig, container2, app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2, app.get_asset_url(imagen3), texto3, app.get_asset_url(imagen4), texto4, app.get_asset_url(imagen5), texto5, app.get_asset_url(imagen6), texto6 # Retornar Los Objetos que hemos creado
 
 @app.callback(
-    [Output (component_id='mapa_planes', component_property='figure')],
+    [Output (component_id='mapa_planes', component_property='srcDoc')],
     [Input (component_id='slct_hay_plan', component_property='value')]
     )
 
-def update_graph_planes (opcion):
-    print(opcion) # Imprimimos a consola La opcion del usuario,
-    print(type (opcion))
+def second_callback(value):
+    print(value) # Imprimimos a consola La opcion del usuario,
+    print(type (value))
 
     planes_elegidos = planes.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
-    planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == opcion]
+    planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == value]
 
-    fig = px.scatter_mapbox(planes_elegidos, lat="lat", lon="long", size="cnt", zoom=3)
-    fig.update_traces(cluster=dict(enabled=True))
-    return fig
+    def cuentaTotalPlanes(data):
+        total_planes_ciudad = []
+        for i in data['Ubicacion'].unique():
+            x = len(data[data['Ubicacion']==i])
+            total_planes_ciudad.append(x)
+        return total_planes_ciudad
+
+    mapa = folium.Map(location=[40.4168, -3.7038], zoom_start=6)
+    total = cuentaTotalPlanes(planes_elegidos)
+    for index, row in planes_elegidos.iterrows():
+        ciudad = row["Ubicacion"]
+        latitud = row["lat"]
+        longitud = row["lon"]
+        
+        # Crear un marcador de burbuja para la ciudad
+        burbuja = folium.CircleMarker(location=[latitud, longitud],
+                                    radius=total,
+                                    color='#3186cc',
+                                    fill=True,
+                                    fill_color='#3186cc')
+        
+        # Agregar el número de etiqueta encima de la burbuja
+        folium.Marker([latitud, longitud], icon=plugins.BeautifyIcon(
+                            icon="arrow-down", icon_shape="marker",
+                            number=5,
+                            border_color= '#3186cc',
+                            background_color='#3186cc'
+                        )
+                    ).add_to(mapa)
+        
+        # Agregar la burbuja al mapa
+        burbuja.add_to(mapa)
+    map.save("../map_1.html")
+
+    return open('../map_1.html', 'r').read()
