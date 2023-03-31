@@ -25,7 +25,7 @@ def selectImg(df, nombreLR):
     elif df[nombreLR][0] == 'EX':
         imagen = 'EX.png'
     else:
-        imagen = 'paj.jpg'
+        imagen = 'NP.png'
         texto = f'No hay datos sobre la situación de esta ave en {nombreLR}'
     return imagen, texto
 
