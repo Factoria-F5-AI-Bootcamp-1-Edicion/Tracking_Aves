@@ -91,7 +91,7 @@ def first_callback(option_slctd, option_leyen):
     return container, fig, container2, app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2, app.get_asset_url(imagen3), texto3, app.get_asset_url(imagen4), texto4, app.get_asset_url(imagen5), texto5, app.get_asset_url(imagen6), texto6 # Retornar Los Objetos que hemos creado
 
 @app.callback(
-    [Output (component_id='mapa_planes', component_property='srcDoc')],
+    Output (component_id='mapa_planes', component_property='srcDoc'),
     [Input (component_id='slct_hay_plan', component_property='value')]
     )
 
@@ -134,6 +134,6 @@ def second_callback(value):
         
         # Agregar la burbuja al mapa
         burbuja.add_to(mapa)
-    map.save("../map_1.html")
+    mapa.save("map_1.html")
 
-    return open('../map_1.html', 'r').read()
+    return open('map_1.html', 'r').read()

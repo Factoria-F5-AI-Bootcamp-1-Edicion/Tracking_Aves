@@ -2,6 +2,8 @@ from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 import pandas as pd
 
+from app import app
+
 df = pd.read_csv('./data_raw/aves_df.csv')
 planes = pd.read_csv('./data_raw/planes_aves.csv')
 
@@ -28,6 +30,7 @@ def nav_bar():
     """
     navbar = html.Div(
         [
+            html.Img(src=app.get_asset_url('seo_logo.png')),
             html.H4("¿Qué deseas ver?", className="display-10",style={'textAlign':'center'}),
             html.Hr(),
             dbc.Nav(
@@ -132,7 +135,8 @@ page3_layout = html.Div([
         value='NO', # Cambiamos Value a Chotacabras cuellirrojo como default, asi el usuario ya tiene un mapa al entrar a la pagina.
         clearable=False, # No aparece el boton de Borrar
         searchable=True, # Se puede buscar escribiendo
-        style={"width": "60%"}
+        style={"width": "60%"},
+        id='slct_hay_plan'
     ),
     html.Iframe(id='mapa_planes', width='100%', height='600')
 ])
