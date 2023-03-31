@@ -4,7 +4,7 @@ import geopandas as gpd
 from dash.exceptions import PreventUpdate
 
 from app import app
-from layouts import nav_bar, CONTENT_STYLE, page2_layout, page3_layout
+from layouts import nav_bar, CONTENT_STYLE, page1_layout, page2_layout, page3_layout
 import callbacks
 
 app.layout = html.Div([
@@ -18,8 +18,8 @@ app.layout = html.Div([
 )
 
 def display_page(pathname):
-    #if pathname == '/'
-        #return page1_layout
+    if pathname == '/':
+        return page1_layout
     if pathname == '/aves':
         return page2_layout
     elif pathname == '/planes':
@@ -27,12 +27,5 @@ def display_page(pathname):
     else:
         return '404'
     
-'''def render_content(tab):
-    if tab == 'tab1':
-        return page1_layout
-    elif tab == 'tab2':
-        return page2_layout
-    raise PreventUpdate
-'''
 if __name__ == "__main__":
     app.run_server(debug=True, use_reloader=False) # Corre el Servidor:

@@ -35,6 +35,7 @@ def nav_bar():
             html.Hr(),
             dbc.Nav(
                 [
+                    dbc.NavLink("Página Principal ", href="/",active="exact", external_link=True),
                     dbc.NavLink("Situacion de aves ", href="/aves",active="exact", external_link=True),
                     dbc.NavLink("Planes de acción ", href="/planes", active="exact", external_link=True)
                 ],
@@ -45,6 +46,10 @@ def nav_bar():
     style=NAVBAR_STYLE
     )  
     return navbar
+
+page1_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
+    html.H1("Situación de las aves amenazas de España", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
+])
 
 page2_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
     html.H1("Situación de las aves amenazas de España", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
