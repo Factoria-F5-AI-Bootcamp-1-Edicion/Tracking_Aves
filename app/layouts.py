@@ -34,7 +34,12 @@ def nav_bar():
             html.H4("¿Qué deseas ver?", className="display-10",style={'textAlign':'center'}),
             html.Hr(),
             dbc.Nav(
+<<<<<<< HEAD
                 [   dbc.NavLink("Página Principal ", href="/",active="exact", external_link=True),
+=======
+                [
+                    dbc.NavLink("Página Principal ", href="/",active="exact", external_link=True),
+>>>>>>> 57a4c69ef3d932c72c4c5597c39d252d33d32678
                     dbc.NavLink("Situacion de aves ", href="/aves",active="exact", external_link=True),
                     dbc.NavLink("Planes de acción ", href="/planes", active="exact", external_link=True)
                 ],
@@ -46,11 +51,17 @@ def nav_bar():
     )  
     return navbar
 
+<<<<<<< HEAD
 page1_layout = html.Div([ 
     html.H1("Plan de acción y catalogación de recuperación de especies a nivel estatal", style={'text-align' : 'center'}), 
     html.H2("Esta información proviene de una base de datos con un listado de todas las aves protegidas  por comunidad en España,  en la cual existe o no un plan de acción de recuperación, en peligro de extincin, vulnerable, sensible a la alteracion de su habitat, etc. y tambien existe un listado a nivel estatal.", style={'text-align' : 'center'})
 ])
  
+=======
+page1_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
+    html.H1("Situación de las aves amenazas de España", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
+])
+>>>>>>> 57a4c69ef3d932c72c4c5597c39d252d33d32678
 
 page2_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
     html.H1("Situación de las aves amenazas de España", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML

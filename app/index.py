@@ -28,6 +28,9 @@ def display_page(pathname):
     else:
         return '404'
     
+<<<<<<< HEAD
 
+=======
+>>>>>>> 57a4c69ef3d932c72c4c5597c39d252d33d32678
 if __name__ == "__main__":
     app.run_server(debug=True, use_reloader=False) # Corre el Servidor:
