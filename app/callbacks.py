@@ -102,33 +102,30 @@ def second_callback(value):
     planes_elegidos = planes.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
     planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == value]
 
-    def cuentaTotalPlanes(data):
-        total_planes_ciudad = []
-        for i in data['Ubicacion'].unique():
-            x = len(data[data['Ubicacion']==i])
-            total_planes_ciudad.append(x)
-        return total_planes_ciudad
+    if value=='SI':
+            color_burbujas = '#00FF00'
+    else:
+        color_burbujas = '#ff0000'
 
     mapa = folium.Map(location=[40.4168, -3.7038], zoom_start=6)
-    total = cuentaTotalPlanes(planes_elegidos)
     for index, row in planes_elegidos.iterrows():
         ciudad = row["Ubicacion"]
         latitud = row["lat"]
         longitud = row["lon"]
-        
+        total = len(planes_elegidos[planes_elegidos['Ubicacion']==ciudad])
         # Crear un marcador de burbuja para la ciudad
         burbuja = folium.CircleMarker(location=[latitud, longitud],
                                     radius=total,
-                                    color='#3186cc',
+                                    color=color_burbujas,
                                     fill=True,
-                                    fill_color='#3186cc')
+                                    fill_color=color_burbujas)
         
         # Agregar el número de etiqueta encima de la burbuja
         folium.Marker([latitud, longitud], icon=plugins.BeautifyIcon(
                             icon="arrow-down", icon_shape="marker",
-                            number=5,
-                            border_color= '#3186cc',
-                            background_color='#3186cc'
+                            number=total,
+                            border_color= color_burbujas,
+                            background_color=color_burbujas
                         )
                     ).add_to(mapa)
         
