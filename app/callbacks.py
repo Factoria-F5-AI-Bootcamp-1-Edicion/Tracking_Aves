@@ -3,11 +3,13 @@ import plotly.express as px
 import geopandas as gpd
 import folium
 import folium.plugins as plugins
+from dash import dcc, html
 
 from app import app
 import layouts
 from dash import Input, Output
 from seleccionar_img import selectImgs
+from crea_mapa import creaMapa
 
 df = pd.read_csv('./data_raw/aves_df.csv')
 planes = pd.read_csv('./data_raw/planes_aves.csv')
@@ -91,46 +93,42 @@ def first_callback(option_slctd, option_leyen):
     return container, fig, container2, app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2, app.get_asset_url(imagen3), texto3, app.get_asset_url(imagen4), texto4, app.get_asset_url(imagen5), texto5, app.get_asset_url(imagen6), texto6 # Retornar Los Objetos que hemos creado
 
 @app.callback(
-    Output (component_id='mapa_planes', component_property='srcDoc'),
+    Output (component_id='planes_si_no', component_property='children'),
     [Input (component_id='slct_hay_plan', component_property='value')]
     )
 
-def second_callback(value):
-    print(value) # Imprimimos a consola La opcion del usuario,
-    print(type (value))
-
-    planes_elegidos = planes.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
-    planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == value]
-
-    if value=='SI':
-            color_burbujas = '#00FF00'
-    else:
-        color_burbujas = '#ff0000'
-
-    mapa = folium.Map(location=[40.4168, -3.7038], zoom_start=6)
-    for index, row in planes_elegidos.iterrows():
-        ciudad = row["Ubicacion"]
-        latitud = row["lat"]
-        longitud = row["lon"]
-        total = len(planes_elegidos[planes_elegidos['Ubicacion']==ciudad])
-        # Crear un marcador de burbuja para la ciudad
-        burbuja = folium.CircleMarker(location=[latitud, longitud],
-                                    radius=total,
-                                    color=color_burbujas,
-                                    fill=True,
-                                    fill_color=color_burbujas)
-        
-        # Agregar el número de etiqueta encima de la burbuja
-        folium.Marker([latitud, longitud], icon=plugins.BeautifyIcon(
-                            icon="arrow-down", icon_shape="marker",
-                            number=total,
-                            border_color= color_burbujas,
-                            background_color=color_burbujas
-                        )
-                    ).add_to(mapa)
-        
-        # Agregar la burbuja al mapa
-        burbuja.add_to(mapa)
-    mapa.save("map_1.html")
-
-    return open('map_1.html', 'r').read()
+def muestraPlanes(value):
+     if value == 'SI':
+        planes_elegidos = planes.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
+        planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == value]
+        color_si_hay = '#00FF00'
+        creaMapa(planes_elegidos, color_si_hay, 'si_planes')
+        planes_caducados = planes.copy()
+        planes_caducados = planes_caducados[planes_caducados["Caducado"] == 'SI']
+        color_caducados = '#FF0000'
+        creaMapa(planes_caducados, color_caducados, 'planes_caducados')
+        planes_vigentes = planes.copy()
+        planes_vigentes = planes_vigentes[planes_vigentes["Caducado"] == 'NO']
+        color_vigentes = '#00FF00'
+        creaMapa(planes_vigentes, color_vigentes, 'planes_vigentes')
+        return html.Div([
+            html.Iframe(srcDoc=open('./mapas/si_planes.html', 'r').read(), width='100%', height='500px'),
+            html. Br(),
+            dcc.Tabs([
+                dcc.Tab(
+                    label="Planes Caducados (+5 años)",
+                    children=[html.Iframe(srcDoc=open('./mapas/planes_caducados.html', 'r').read(), width='100%', height='500px')]
+                ),
+                dcc.Tab(
+                    label="Planes Vigentes",
+                    children=[html.Iframe(srcDoc=open('./mapas/planes_vigentes.html', 'r').read(), width='100%', height='500px')]
+                ),
+            ],style={'float': 'right','margin': 'auto'} # 'float': 'right','margin': 'auto' -- 'width': '49%', 'display': 'inline-block'
+            )
+        ])
+     else:
+        planes_elegidos = planes.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
+        planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == value]
+        color_no_hay = '#FF0000'
+        creaMapa(planes_elegidos, color_no_hay, 'no_planes')
+        return html.Iframe(srcDoc=open('./mapas/no_planes.html', 'r').read(), width='100%', height='500px')

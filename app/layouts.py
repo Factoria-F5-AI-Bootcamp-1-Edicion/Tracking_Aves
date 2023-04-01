@@ -150,5 +150,5 @@ page3_layout = html.Div([
         style={"width": "60%"},
         id='slct_hay_plan'
     ),
-    html.Iframe(id='mapa_planes', width='100%', height='600')
+    html.Div(id='planes_si_no',style=CONTENT_STYLE)
 ])
