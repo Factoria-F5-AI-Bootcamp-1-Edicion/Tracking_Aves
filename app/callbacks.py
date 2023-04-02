@@ -98,7 +98,9 @@ def first_callback(option_slctd, option_leyen):
     )
 
 def muestraPlanes(value):
-     if value == 'SI':
+    print(value)
+    print(type(value))
+    if value == 'SI':
         planes_elegidos = planes.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
         planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == value]
         color_si_hay = '#00FF00'
@@ -126,7 +128,7 @@ def muestraPlanes(value):
             ],style={'float': 'right','margin': 'auto'} # 'float': 'right','margin': 'auto' -- 'width': '49%', 'display': 'inline-block'
             )
         ])
-     else:
+    else:
         planes_elegidos = planes.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
         planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == value]
         color_no_hay = '#FF0000'
