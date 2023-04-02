@@ -59,7 +59,7 @@ page1_layout = html.Div([
  
 
 page2_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
-    html.H1("Situación de las aves amenazas de España", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
+    html.H1("Situación de las aves en peligro de España", style={'text-align' : 'center'}), # Crea La Cabecera de la pagina HTML
     dcc.Dropdown (id="slct_nombre_comun", # Crea el Desplegable
         options=df['nombre_comun&cientifico'],
         multi=False, # Multi: Deja el Usuario introducir multiples valores a la vez
@@ -78,26 +78,26 @@ page2_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correr�
             dcc.Tab(
                 label="Canarias 2004 & 2021",
                 value="tab-1",
-                children=[html.H4(id='texto1'),
-                          html.Img(id='img1', style={'display': 'inline-block', 'height':'20%'}),
-                          html.H4(id='texto2'),
-                          html.Img(id='img2', style={'display': 'inline-block', 'height':'20%'})]
+                children=[html.H5(id='texto1'),
+                          html.Img(id='img1', style={'display': 'inline-block', 'width': '20%'}),
+                          html.H5(id='texto2'),
+                          html.Img(id='img2', style={'display': 'inline-block', 'width': '20%'})]
             ),
             dcc.Tab(
                 label="Península Reproductoras 2004 & 2021",
                 value="tab-2",
-                children=[html.H4(id='texto3'),
-                          html.Img(id='img3', style={'display': 'inline-block', 'height':'20%'}),
-                          html.H4(id='texto4'),
-                          html.Img(id='img4', style={'display': 'inline-block', 'height':'20%'})]
+                children=[html.H5(id='texto3'),
+                          html.Img(id='img3', style={'display': 'inline-block', 'width': '20%'}),
+                          html.H5(id='texto4'),
+                          html.Img(id='img4', style={'display': 'inline-block', 'width': '20%'})]
             ),
             dcc.Tab(
                 label="Península Migratorias 2004 & 2021",
                 value="tab-3",
-                children=[html.H4(id='texto5'),
-                          html.Img(id='img5', style={'display': 'inline-block', 'height':'20%'}),
-                          html.H4(id='texto6'),
-                          html.Img(id='img6', style={'display': 'inline-block', 'height':'20%'})]
+                children=[html.H5(id='texto5'),
+                          html.Img(id='img5', style={'display': 'inline-block', 'width': '20%'}),
+                          html.H5(id='texto6'),
+                          html.Img(id='img6', style={'display': 'inline-block', 'width': '20%'})]
             )
         ],style={'float': 'right','margin': 'auto'} # 'float': 'right','margin': 'auto' -- 'width': '49%', 'display': 'inline-block'
     ),

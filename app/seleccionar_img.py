@@ -3,7 +3,7 @@ import numpy as np
 
 def selectImg(df, nombreLR):
     categoria = df[nombreLR][0]
-    texto = 'Situación en '+f'{nombreLR}'+f': {categoria}'
+    texto = f'{nombreLR}'+f': {categoria}'
     if df[nombreLR][0] == 'NE':
         imagen = 'NE.png'
     elif df[nombreLR][0] == 'DD':
@@ -26,7 +26,7 @@ def selectImg(df, nombreLR):
         imagen = 'EX.png'
     else:
         imagen = 'NP.png'
-        texto = f'No hay datos sobre la situación de esta ave en {nombreLR}'
+        texto = f'Sin datos'
     return imagen, texto
 
 def selectImgs(df, nombreLR1, nombreLR2):
