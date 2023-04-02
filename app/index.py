@@ -29,4 +29,4 @@ def display_page(pathname):
         return '404'
     
 if __name__ == "__main__":
-    app.run_server(debug=True, use_reloader=False) # Corre el Servidor:
+    app.run_server(host='0.0.0.0',debug=True, port=8050) # Corre el Servidor:
