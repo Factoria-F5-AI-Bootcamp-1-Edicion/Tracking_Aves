@@ -64,7 +64,7 @@ def first_callback(option_slctd, option_leyen): # Función para actuaizar el map
         locations=dff.index_ciudad, # Cambiamos Las Localizaciones para que  nuestra columna de 'index_ciudad' para que sepa qué comunidad es(Números, no nombres)
         color='NIVEL AMENAZA', # Definimos esta variable para cambiar La Columna que usa como referencia para añadir colores.
         hover_name='Ubicacion', # El título del cuadro informativo que aparece al pasar el ratón, en este caso la Comunidad Autónoma.
-        hover_data=['NOMBRE COMÚN', 'Amenaza', 'CEEA y LESRPE'], # Datos que se muestran en el cuadro informativo.
+        hover_data=['Categoría_Regional', 'CEEA y LESRPE'], # Datos que se muestran en el cuadro informativo.
         labels={0 : 'Sin datos suficientes', 1: 'Amenaza Leve', 2 : 'Amenaza Media', 3 : 'Amenaza Grave', 4 :'Amenaza Muy Grave'} ,
         color_continuous_scale=colorscale, # La escala de color, usaremos los que definimos arriba en 'colorscale'.
         color_continuous_midpoint=1,
