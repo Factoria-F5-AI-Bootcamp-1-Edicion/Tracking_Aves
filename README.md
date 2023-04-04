@@ -4,7 +4,37 @@
 
 ![paj](/img/pajarito.jpg)
 
+# INSTALACIÓN
 
+1. Clone este repositorio en la carpeta que desee.
+```
+git clone https://github.com/Factoria-F5-AI-Bootcamp-1-Edicion/Tracking_Aves.git
+```
+2. Se aconseja crear un entorno destinado para este proyecto. Por ejemplo con conda o venv.
+3. Abra la terminal y ejecute:
+```
+pip install -r requirements.txt
+```
+4. Ya puede correr el programa. En su terminal y desde el directorio raíz ejecute:
+```
+python app/index.py
+```
+
+# INSTALACIÓN CON DOCKER
+
+1. Clone este repositorio en la carpeta que desee.
+```
+git clone https://github.com/Factoria-F5-AI-Bootcamp-1-Edicion/Tracking_Aves.git
+```
+2. Instale docker en su computadora. Dependerá de su SO.
+3. En la carpeta donde clonó el repositorio y desde su terminal, para crear la imagen ejecute:
+```
+sudo docker build -t dash_aves .
+```
+4. Cuando termine de construirse la imagen, corra la imagen con:
+```
+sudo docker run -p 8050:8050 dash_aves
+```
 
 # Plan de Acción y Catalogación de Recuperación de Especies a Nivel Estatal 
 
@@ -50,7 +80,7 @@
 
 * Mapa plan de Acción y Nivel de Amenazas: La sección de Mapa muestra la distribución geográfica de las diferentes especies de aves y proporciona información detallada sobre la categoria legal regional y estatal.
 
-* Leyendas: La sección de Leyendas proporciona una explicación detallada de las diferentes categorías de las aves que se encuentran en el listado.
+* Leyendas: La sección de Leyendas proporciona una explicación detallada de las diferentes categorias de las aves que se encuentran en el listado.
 
 <br>
 
@@ -86,6 +116,7 @@
 <br>
 
 # PASOS PARA LA INSTALACIÓN EN NOTION
+
 [Instalación](https://alive-ambert-19d.notion.site/Dashboard-de-aves-en-peligro-de-extinci-n-a5dc40d007db4cfd975a9bd673a3dc0e)
 
 
