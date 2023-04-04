@@ -22,7 +22,7 @@
 * Página principal: La página principal proporciona una vista general del proyecto y permite a los usuarios navegar a otras secciones de la plataforma.
 <br>
 
-![principal](img/pagina_principal.png)
+![principal](img/portada.jpg)
 
 * Situación de aves: La sección de Situación de Aves proporciona información detallada sobre el estado de las aves en diferentes regiones. 
 
@@ -81,6 +81,7 @@
 * Celeste López (Developer)
 * Mayra Espinoza (Developer)
 * Sebastian Degaudenci (Developer)
+
 
 <br>
 
