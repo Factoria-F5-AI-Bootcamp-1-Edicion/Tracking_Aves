@@ -50,7 +50,7 @@
 
 * Mapa plan de Acción y Nivel de Amenazas: La sección de Mapa muestra la distribución geográfica de las diferentes especies de aves y proporciona información detallada sobre la categoria legal regional y estatal.
 
-* Leyendas: La sección de Leyendas proporciona una explicación detallada de las diferentes categorias de las aves que se encuentran en el listado.
+* Leyendas: La sección de Leyendas proporciona una explicación detallada de las diferentes categorías de las aves que se encuentran en el listado.
 
 <br>
 
@@ -86,7 +86,7 @@
 <br>
 
 # PASOS PARA LA INSTALACIÓN EN NOTION
-[Instalación]('https://alive-ambert-19d.notion.site/Dashboard-de-aves-en-peligro-de-extinci-n-a5dc40d007db4cfd975a9bd673a3dc0e')
+[Instalación](https://alive-ambert-19d.notion.site/Dashboard-de-aves-en-peligro-de-extinci-n-a5dc40d007db4cfd975a9bd673a3dc0e)
 
 
 
