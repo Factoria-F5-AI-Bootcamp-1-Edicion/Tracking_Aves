@@ -21,16 +21,13 @@ leyen_plan = pd.read_csv('./app/data/leyendas_planes.csv') # Cargamos dataset de
 f = r"./app/data/Espana_y_comunidades.shp"
 shapes = gpd.read_file(f) # Cargamos las geometrías de las Comunidades Autónomas (CCAA)
 
+#-----------------------------------------------Callbacks Página 2: Situación de aves---------------------------
+
 @app.callback( # Define Los Inputs y Outputs de la funcion first_callback()
     [Output (component_id='output_container', component_property='children'), # Output 1: Texto debajo del desplegable
     Output (component_id='superstore_map', component_property='figure'), # Mapa de ubicación del ave seleccionada
     Output (component_id='output_container2', component_property='children'), # Texto del significado de la leyenda
-    Output ('img1', 'src'),  Output('texto1', 'children'), # Imágenes de pajaros de colores, en función de la lista roja.
-    Output ('img2', 'src'),  Output('texto2', 'children'),
-    Output ('img3', 'src'),  Output('texto3', 'children'),
-    Output ('img4', 'src'),  Output('texto4', 'children'),
-    Output ('img5', 'src'),  Output('texto5', 'children'),
-    Output ('img6', 'src'),  Output('texto6', 'children')], 
+    ], 
     [Input (component_id='slct_nombre_comun', component_property='value'), # Input 1: Desplegable para seleccionar ave
      Input (component_id='slct_leyen_amenaza', component_property='value')] # INput 2: Desplegable para seleccionar leyenda
     )
@@ -87,14 +84,30 @@ def first_callback(option_slctd, option_leyen): # Función para actuaizar el map
         )
     )
 
+    return container, fig, container2 # Retornar Los Objetos que hemos creado
+              
+@app.callback(
+    [Output ('img1', 'src'),  Output('texto1', 'children'), # Imágenes de pajaros de colores, en función de la lista roja.
+    Output ('img2', 'src'),  Output('texto2', 'children'),
+    Output ('img3', 'src'),  Output('texto3', 'children'),
+    Output ('img4', 'src'),  Output('texto4', 'children'),
+    Output ('img5', 'src'),  Output('texto5', 'children'),
+    Output ('img6', 'src'),  Output('texto6', 'children')],
+    [Input (component_id='slct_nombre_comun', component_property='value')]
+    )
+
+def generaImagenesTextos(option_slctd):
+    dff = df.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
+    dff = dff[dff["nombre_comun&cientifico"] == option_slctd].reset_index()
     imagen1, texto1, imagen2, texto2 = selectImgs(dff, 'Lista Roja 2004 Canarias', 'Lista Roja 2021 Canarias') # Utilizamos la función selecImgs del archivo seleccionar_img.
     imagen3, texto3, imagen4, texto4 = selectImgs(dff, 'Lista Roja 2004 Península', 'Lista Roja 2021 Reproductoras Península')
     imagen5, texto5, imagen6, texto6 = selectImgs(dff, 'Lista Roja 2004 Península', 'Lista Roja 2021 Migratorias')
-    return container, fig, container2, app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2, app.get_asset_url(imagen3), texto3, app.get_asset_url(imagen4), texto4, app.get_asset_url(imagen5), texto5, app.get_asset_url(imagen6), texto6 # Retornar Los Objetos que hemos creado
-               # Devolvemos los containers, el mapa y las imágenes. 
+    return app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2, app.get_asset_url(imagen3), texto3, app.get_asset_url(imagen4), texto4, app.get_asset_url(imagen5), texto5, app.get_asset_url(imagen6), texto6
+            # Devolvemos las imágenes y textos de las tablas.
                # NOTA: Las imágenes deben estar en la carpeta assets/ para que las lea la función .get_asset_url
 
-#-------------------------------Primer Callback: Página 1. Situación de aves------------------------------
+#-------------------------------Callbacks Página 3: Planes de acción-------------------------------------------------------
+
 @app.callback(
     Output (component_id='planes_si_no', component_property='children'), # La salida es un objeto html.
     [Input (component_id='slct_hay_plan', component_property='value')] # El Input es el dropdown donde seleccionamos que planes queremos ver.
