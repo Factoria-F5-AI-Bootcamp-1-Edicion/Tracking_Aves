@@ -3,6 +3,7 @@ data_raw/
 /ESP_adm/
 /ESP/
 /leyendas/
+app/data
 .mapbox_token
 app/mapas/
 # Created by https://www.toptal.com/developers/gitignore/api/jupyternotebooks,microsoftoffice,python

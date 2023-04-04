@@ -4,8 +4,8 @@ import pandas as pd
 
 from app import app
 
-df = pd.read_csv('./data_raw/aves_df.csv')
-planes = pd.read_csv('./data_raw/planes_aves.csv')
+df = pd.read_csv('./app/data/aves_df.csv')
+planes = pd.read_csv('./app/data/planes_aves.csv')
 
 NAVBAR_STYLE = { # Estilo del navegador lateral.
     "position": "fixed",

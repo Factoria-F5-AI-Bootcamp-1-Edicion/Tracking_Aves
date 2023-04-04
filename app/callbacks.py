@@ -12,13 +12,13 @@ from dash import Input, Output
 from seleccionar_img import selectImgs
 from crea_mapa import creaMapa
 
-df = pd.read_csv('./data_raw/aves_df.csv') # Cargamos dataset de aves
-planes = pd.read_csv('./data_raw/planes_aves.csv') # Cargamos dataset de planes
+df = pd.read_csv('./app/data/aves_df.csv') # Cargamos dataset de aves
+planes = pd.read_csv('./app/data/planes_aves.csv') # Cargamos dataset de planes
 
-leyen_amen = pd.read_csv('./leyendas/leyendas_amenaza.csv') # Cargamos dataset de leyendas de amenaza
-leyen_plan = pd.read_csv('./leyendas/leyendas_planes.csv') # Cargamos dataset de leyendas de amenaza
+leyen_amen = pd.read_csv('./app/data/leyendas_amenaza.csv') # Cargamos dataset de leyendas de amenaza
+leyen_plan = pd.read_csv('./app/data/leyendas_planes.csv') # Cargamos dataset de leyendas de amenaza
 
-f = r"ESP/Espana_y_comunidades.shp"
+f = r"./app/data/Espana_y_comunidades.shp"
 shapes = gpd.read_file(f) # Cargamos las geometrías de las Comunidades Autónomas (CCAA)
 
 @app.callback( # Define Los Inputs y Outputs de la funcion first_callback()

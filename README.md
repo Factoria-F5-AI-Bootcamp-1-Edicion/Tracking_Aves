@@ -107,10 +107,9 @@ sudo docker run -p 8050:8050 dash_aves
 
 # PARTICIPANTES 
 
-* Nayare Montes (Scrum Master )
-* Celeste López (Developer)
-* Mayra Espinoza (Developer)
-* Sebastian Degaudenci (Developer)
+* [Nayare Montes (Scrum Master- Developper)](https://www.linkedin.com/in/nayare-montes-gavilan/)
+* [Celeste López (Developer)](https://www.linkedin.com/in/celeste17/)
+* [Mayra Espinoza (Developer)](https://www.linkedin.com/in/mapiespinoza/)
 
 
 <br>
