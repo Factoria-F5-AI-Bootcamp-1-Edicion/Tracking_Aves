@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 8050
 
-CMD ["python", "app/index.py", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "app/index.py", "--host", "0.0.0.0", "--port", "8050"]
