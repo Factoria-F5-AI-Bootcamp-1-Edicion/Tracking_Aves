@@ -4,10 +4,7 @@ data_raw/
 /ESP/
 /leyendas/
 .mapbox_token
-/mapas/no_planes.html
-/mapas/si_planes.html
-/mapas/planes_caducados.html
-/mapas/planes_vigentes.html
+app/mapas/
 # Created by https://www.toptal.com/developers/gitignore/api/jupyternotebooks,microsoftoffice,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=jupyternotebooks,microsoftoffice,python
 

@@ -34,4 +34,4 @@ def creaMapa(dataframe, color_burbujas, nombre): # Los argumentos serán el data
                 
                 # Agregar la burbuja al mapa
                 burbuja.add_to(mapa) # Añadimos los marcadores al mapa
-    mapa.save(f"./mapas/{nombre}.html") # Guardamos el mapa como html en la carpeta mapas/
+    mapa.save(f"./app/mapas/{nombre}.html") # Guardamos el mapa como html en la carpeta mapas/

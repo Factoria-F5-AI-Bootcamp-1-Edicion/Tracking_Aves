@@ -4,6 +4,7 @@ import geopandas as gpd
 import folium
 import folium.plugins as plugins
 from dash import dcc, html
+import os
 
 from app import app
 import layouts
@@ -102,6 +103,7 @@ def first_callback(option_slctd, option_leyen): # Función para actuaizar el map
 def muestraPlanes(value):
     print(value)
     print(type(value))
+    os.makedirs('./app/mapas', exist_ok = True)
     if value == 'SI': # Si seleccionamos 'Con el correspondiente plan':
         planes_elegidos = planes.copy() 
         planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == value] # Seleccionamos los datos de todos los planes activos.
@@ -116,16 +118,16 @@ def muestraPlanes(value):
         color_vigentes = '#00FF00'
         creaMapa(planes_vigentes, color_vigentes, 'planes_vigentes')
         return html.Div([ # Devuelve un objeto html con los 3 mapas creados.
-            html.Iframe(srcDoc=open('./mapas/si_planes.html', 'r').read(), width='100%', height='500px'),
+            html.Iframe(srcDoc=open('./app/mapas/si_planes.html', 'r').read(), width='100%', height='500px'),
             html. Br(),
             dcc.Tabs([
                 dcc.Tab(
                     label="Planes Caducados (+5 años)",
-                    children=[html.Iframe(srcDoc=open('./mapas/planes_caducados.html', 'r').read(), width='100%', height='500px')]
+                    children=[html.Iframe(srcDoc=open('./app/mapas/planes_caducados.html', 'r').read(), width='100%', height='500px')]
                 ),
                 dcc.Tab(
                     label="Planes Vigentes",
-                    children=[html.Iframe(srcDoc=open('./mapas/planes_vigentes.html', 'r').read(), width='100%', height='500px')]
+                    children=[html.Iframe(srcDoc=open('./app/mapas/planes_vigentes.html', 'r').read(), width='100%', height='500px')]
                 ),
             ],style={'float': 'right','margin': 'auto'} # 'float': 'right','margin': 'auto' -- 'width': '49%', 'display': 'inline-block'
             )
@@ -135,4 +137,4 @@ def muestraPlanes(value):
         planes_elegidos = planes_elegidos[planes_elegidos["HAY_PLAN"] == value] # Seleccionamos los datos de planes que faltan.
         color_no_hay = '#FF0000' # Color rojo
         creaMapa(planes_elegidos, color_no_hay, 'no_planes') # Creamos el mapa de planes que faltan.
-        return html.Iframe(srcDoc=open('./mapas/no_planes.html', 'r').read(), width='100%', height='500px') # Devuelve un objeto html con el mapa de folium,
+        return html.Iframe(srcDoc=open('./app/mapas/no_planes.html', 'r').read(), width='100%', height='500px') # Devuelve un objeto html con el mapa de folium,
