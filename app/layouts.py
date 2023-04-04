@@ -55,9 +55,11 @@ def nav_bar():
 
 #---------------------------Diseño PÁGINA 1: Página Principal----------------------------------
 page1_layout = html.Div([ 
-    html.H1("Plan de acción y catalogación de recuperación de especies a nivel estatal", style={'text-align' : 'center'}), 
-    html.H2("Esta información proviene de una base de datos con un listado de todas las aves protegidas  por comunidad en España,  en la cual existe o no un plan de acción de recuperación, en peligro de extincin, vulnerable, sensible a la alteracion de su habitat, etc. y tambien existe un listado a nivel estatal.", style={'text-align' : 'center'})
-])
+    html.Img(src=app.get_asset_url('Portada.png'), style={'display': 'block', # Portada
+                                                                    'margin-left': 'scale_factor',
+                                                                    'margin-right': 'scale_factor',
+                                                                    'width': '100%'})
+                        ])
  
 #---------------------------Diseño PÁGINA 2: Situación de Aves----------------------------------
 page2_layout = html.Div([ # Definimos el diseño de La Pagina HTML donde correrá nuestro programa.
