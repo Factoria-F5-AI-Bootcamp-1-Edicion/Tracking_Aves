@@ -9,7 +9,7 @@ import os
 from app import app
 import layouts
 from dash import Input, Output
-from seleccionar_img import selectImgs
+from seleccionar_img import selectImgs, selectImg
 from crea_mapa import creaMapa
 
 df = pd.read_csv('./app/data/aves_df.csv') # Cargamos dataset de aves
@@ -25,24 +25,16 @@ shapes = gpd.read_file(f) # Cargamos las geometrías de las Comunidades Autónom
 
 @app.callback( # Define Los Inputs y Outputs de la funcion first_callback()
     [Output (component_id='output_container', component_property='children'), # Output 1: Texto debajo del desplegable
-    Output (component_id='superstore_map', component_property='figure'), # Mapa de ubicación del ave seleccionada
-    Output (component_id='output_container2', component_property='children'), # Texto del significado de la leyenda
-    ], 
-    [Input (component_id='slct_nombre_comun', component_property='value'), # Input 1: Desplegable para seleccionar ave
-     Input (component_id='slct_leyen_amenaza', component_property='value')] # INput 2: Desplegable para seleccionar leyenda
+    Output (component_id='superstore_map', component_property='figure')], # Mapa de ubicación del ave seleccionada
+    [Input (component_id='slct_nombre_comun', component_property='value')] # Input 1: Desplegable para seleccionar ave
     )
 
-def first_callback(option_slctd, option_leyen): # Función para actuaizar el mapa, las imágenes de colores de pajaritos y el significado de la leyenda.
+def first_callback(option_slctd): # Función para actuaizar el mapa, las imágenes de colores de pajaritos y el significado de la leyenda.
     print(option_slctd) # Imprimimos a consola La opcion del usuario,
     print(type (option_slctd)) # y el tipo de la opcion (best practices).
-    print(option_leyen)
-    print(type(option_leyen))
     
     #---------Creamos container y container2
     container="El ave seleccionada es: {}".format(option_slctd) # Cambiamos el texto debajo del desplegable al ave seleccionada
-    leyenda=leyen_amen['Leyenda'].iloc[option_leyen] # Seleccionamos la leyenda elegida
-    significado=leyen_amen['Significado'].iloc[option_leyen] # Seleccionamos el significado de la leyenda
-    container2=f'{leyenda}'+' es igual a '+f'{significado}' # Texto de significado correspondiente a leyenda.
     
     dff = df.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
     dff = dff[dff["nombre_comun&cientifico"] == option_slctd].reset_index() # Filtramos La nueva DataFrame por ave seleccionada, asi tenemos solo el ave que buscamos.
@@ -84,7 +76,7 @@ def first_callback(option_slctd, option_leyen): # Función para actuaizar el map
         )
     )
 
-    return container, fig, container2 # Retornar Los Objetos que hemos creado
+    return container, fig # Retornar Los Objetos que hemos creado
               
 @app.callback(
     [Output ('img1', 'src'),  Output('texto1', 'children'), # Imágenes de pajaros de colores, en función de la lista roja.
@@ -96,7 +88,7 @@ def first_callback(option_slctd, option_leyen): # Función para actuaizar el map
     [Input (component_id='slct_nombre_comun', component_property='value')]
     )
 
-def generaImagenesTextos(option_slctd):
+def generaImgtxt(option_slctd):
     dff = df.copy() # Creamos una copia de nuestra DataFrame, asi no modificamos datos de la original.
     dff = dff[dff["nombre_comun&cientifico"] == option_slctd].reset_index()
     imagen1, texto1, imagen2, texto2 = selectImgs(dff, 'Lista Roja 2004 Canarias', 'Lista Roja 2021 Canarias') # Utilizamos la función selecImgs del archivo seleccionar_img.
@@ -105,6 +97,22 @@ def generaImagenesTextos(option_slctd):
     return app.get_asset_url(imagen1), texto1, app.get_asset_url(imagen2), texto2, app.get_asset_url(imagen3), texto3, app.get_asset_url(imagen4), texto4, app.get_asset_url(imagen5), texto5, app.get_asset_url(imagen6), texto6
             # Devolvemos las imágenes y textos de las tablas.
                # NOTA: Las imágenes deben estar en la carpeta assets/ para que las lea la función .get_asset_url
+
+
+@app.callback(
+        Output (component_id='output_container2', component_property='children'),
+        [Input (component_id='slct_leyen_amenaza', component_property='value')]
+)
+
+def creaLeyenda(option_leyen):
+    print(option_leyen)
+    print(type(option_leyen))
+
+    leyenda=leyen_amen['Leyenda'].iloc[option_leyen] # Seleccionamos la leyenda elegida
+    significado=leyen_amen['Significado'].iloc[option_leyen] # Seleccionamos el significado de la leyenda
+    container2=f'{leyenda}'+' es igual a '+f'{significado}' # Texto de significado correspondiente a leyenda.
+
+    return container2
 
 #-------------------------------Callbacks Página 3: Planes de acción-------------------------------------------------------
 
